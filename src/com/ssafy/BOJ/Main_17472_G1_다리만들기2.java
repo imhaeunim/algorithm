@@ -5,8 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.StringTokenizer;
+
+
 
 public class Main_17472_G1_다리만들기2 {
 	static int[] dx = {-1,1,0,0};
@@ -30,6 +33,55 @@ public class Main_17472_G1_다리만들기2 {
 		}
 	}
 	
+	
+	
+	static class Edge implements Comparable<Edge>{
+		int from, to, weight;
+
+		public Edge(int from, int to, int weight) {
+			super();
+			this.from = from;
+			this.to = to;
+			this.weight = weight;
+		}
+
+		@Override
+		public int compareTo(Edge o) {
+			return Integer.compare(this.weight, o.weight);
+		}
+
+		@Override
+		public String toString() {
+			return "Edge [from=" + from + ", to=" + to + ", weight=" + weight + "]";
+		}
+		
+	}
+	
+	
+	static int V,E;
+	static Edge[] edgeList;
+	static int[] parents;
+	
+	static void makeSet() {
+		parents = new int[V];
+		for (int i = 0; i < V; i++) {
+			parents[i] = i;
+		}
+	}
+	static int findSet(int a) {
+		if(parents[a]==a) return a;
+		
+		return parents[a]=findSet(parents[a]);
+	}
+	static boolean union(int a, int b) {
+		int aRoot = findSet(a);
+		int bRoot = findSet(b);
+		
+		if(aRoot==bRoot) return false;
+		
+		parents[bRoot]=aRoot;
+		return true;
+	}
 	public static void main(String[] args) throws IOException {
 		BufferedReader br =  new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
@@ -74,26 +126,65 @@ public class Main_17472_G1_다리만들기2 {
 				}
 			}
 		}
-
+		
+		Queue<Edge> pq = new PriorityQueue<Edge>();
+		int ii=1;
 		for(int i=0; i<N; i++) {
 			for(int j=0; j<M; j++) {
 				visited = new boolean[N][M];
 				if(map[i][j]!=0) {
+					Queue<Number> queue = new LinkedList<>();
 					int number = map[i][j]; // 섬 번호
 					for(int d=0; d<4; d++) {
 						int nx = i+dx[d];
 						int ny = j+dy[d];
 						if(nx<0|| ny<0|| nx>=N|| ny>=M) continue;
-						if(map[nx][ny]==1) continue;
-						
+						visited[nx][ny]=true;
+						if(map[nx][ny]!=0) continue;
+						queue.offer(new Number(nx,ny,d,1));	
 					}
+					while(!queue.isEmpty()) {
+						Number n = queue.poll();
+						int nx=n.x+dx[n.d];
+						int ny=n.y+dy[n.d];
+						if(nx<0|| ny<0|| nx>=N|| ny>=M) continue;
+						if(visited[nx][ny]) continue;
+						visited[nx][ny]=true;
+						if(map[nx][ny]==0) {
+							queue.offer(new Number(nx,ny,n.d,n.c+1));
+						}else {
+							if(n.c>1) {
+								pq.add(new Edge(number-1,map[nx][ny]-1,n.c));
+							}
+						}
+				}
+					
+					
 				}
 			}
 		}
 		
-		for(int i=0; i<N; i++) {
-			System.out.println(Arrays.toString(map[i]));
+		V=num;
+		
+		makeSet();
+		int result=0, count=0;
+		boolean[] check = new boolean[V];
+		while (!pq.isEmpty()) {
+			Edge edge = pq.poll();
+			if(union(edge.from, edge.to)) {
+				check[edge.from]=true;
+				check[edge.to]=true;
+				result +=edge.weight;
+				if(++count==V-1) break;
+			}
 		}
+		for(int i=0; i<V; i++) {
+			if(!check[i]) {
+				result=-1;
+				break;
+			}
+		}
+		System.out.println(result);
 		
 		
 	}

@@ -11,7 +11,7 @@ import java.util.StringTokenizer;
 
 
 
-public class Main_17472_G1_다리만들기2 {
+public class Main_17472_G1_다리만들기2_임하은 {
 	static int[] dx = {-1,1,0,0};
 	static int[] dy = {0,0,-1,1};
 	static int N, M;
@@ -127,6 +127,7 @@ public class Main_17472_G1_다리만들기2 {
 			}
 		}
 		
+		
 		Queue<Edge> pq = new PriorityQueue<Edge>();
 		int ii=1;
 		for(int i=0; i<N; i++) {
@@ -178,8 +179,9 @@ public class Main_17472_G1_다리만들기2 {
 				if(++count==V-1) break;
 			}
 		}
-		for(int i=0; i<V; i++) {
-			if(!check[i]) {
+		int p = findSet(parents[0]);
+		for(int i=1; i<V; i++) {
+			if(p!=findSet(parents[i])) {
 				result=-1;
 				break;
 			}

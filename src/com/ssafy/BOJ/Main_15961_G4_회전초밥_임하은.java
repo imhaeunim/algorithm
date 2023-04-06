@@ -3,9 +3,13 @@ package com.ssafy.BOJ;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.StringTokenizer;
 
-public class Main_2531_S1_회전초밥_임하은 {
+public class Main_15961_G4_회전초밥_임하은 {
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -18,39 +22,37 @@ public class Main_2531_S1_회전초밥_임하은 {
 		
 		int[] list= new int[N];
 		int[] pick= new int[k];
-		boolean[] eat = new boolean[d+1];
+		int[] eat = new int[d+1];
 		
 		for(int i=0; i<N; i++) {
 			list[i]=Integer.parseInt(br.readLine());
 		}
 		
+		int count=0;
 		for(int i=0; i<k; i++) {
 			pick[i]=list[i];
-			eat[list[i]]=true;
-		}
-		
-		eat[d]=true;
-		int count=0;
-		for(int i=0; i<=d; i++) {
-			if(eat[i]) count++;
+			if(eat[pick[i]]==0) count++;
+			eat[pick[i]]++;
 		}
 		int max=count;
-		System.out.println(max);
-		
 		int start=k; //start%8
 		int idx=0;
 		for(int i=0; i<N; i++) {
-			eat[pick[idx]]=false;
-			eat[d]=true;
-			eat[list[start]]=true;
+			eat[pick[idx]]--;
+			if(eat[pick[idx]]==0) count--;
 			pick[idx]=list[start];
-			count=0;
-			for(int j=0; j<=d; j++) {
-				if(eat[j]) count++;
+			if(eat[pick[idx]]==0) count++;
+			eat[pick[idx]]++;
+			if(eat[c]==0) {
+				count++;
+				max=Math.max(max, count);
+				count--;
+			}else {
+				max=Math.max(max, count);
 			}
-			max=Math.max(max, count);
-			start=(start++)%8;
-			idx=(idx++)%4;
+			
+			start=(start+1)%N;
+			idx=(idx+1)%k;
 		}
 		System.out.println(max);
 

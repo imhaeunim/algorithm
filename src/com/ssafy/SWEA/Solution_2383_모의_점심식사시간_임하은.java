@@ -67,7 +67,7 @@ public class Solution_2383_모의_점심식사시간_임하은 {
 	}
 	private static void sebset(int cnt) {
 		if(cnt==people.size()) {
-			
+			calculate();
 			return;
 		}
 		isSelected[cnt] = true;
@@ -76,17 +76,26 @@ public class Solution_2383_모의_점심식사시간_임하은 {
 		sebset(cnt+1);
 	}
 	
-	private static void calculate(boolean selec) {
-		int s = 0; //첫번째 계단
-		if(selec==false) {
-			s = 1; //두번째 계단
-		}
-		PriorityQueue<Person> p = new PriorityQueue<>();
+	private static void calculate() {
+		PriorityQueue<Person> p1 = new PriorityQueue<>();
+		PriorityQueue<Person> p2 = new PriorityQueue<>();
 		for(int i=0; i<isSelected.length; i++) {
-			if(isSelected[i]==selec) {
-				p.add(new Person(people.get(i)[0],people.get(i)[1],
-						Math.abs(stair.get(s)[0]-people.get(i)[0])+Math.abs(stair.get(s)[0]-people.get(i)[0]),s));			
+			if(isSelected[i]) { //첫번째 계단
+				p1.add(new Person(people.get(i)[0],people.get(i)[1],
+						Math.abs(stair.get(0)[0]-people.get(i)[0])+Math.abs(stair.get(0)[0]-people.get(i)[0]),0));			
+			}else{ //두번째 계단
+				p2.add(new Person(people.get(i)[0],people.get(i)[1],
+						Math.abs(stair.get(1)[0]-people.get(i)[0])+Math.abs(stair.get(1)[0]-people.get(i)[0]),1));			
 			}
+		}
+		
+		int time=0;
+		int count = 0;
+		while(!p1.isEmpty()) {			
+			Person person = p1.poll();
+			time+=person.d;
+			count++;
+			
 		}
 	}
 }

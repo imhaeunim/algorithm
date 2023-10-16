@@ -3,7 +3,10 @@ package com.ssafy.problem.BOJ;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main_5430_G5_AC_임하은 {
@@ -16,8 +19,8 @@ public class Main_5430_G5_AC_임하은 {
 		
 		int T = Integer.parseInt(br.readLine());
 		
-		while(T>0) {
-			T-=1;
+		top:
+		for(int t=0; t<T; t++) {
 			String temp=br.readLine();
 			
 			char[] rdList = new char[temp.length()];
@@ -27,7 +30,6 @@ public class Main_5430_G5_AC_임하은 {
 			}
 			
 			int n = Integer.parseInt(br.readLine());
-//			int[] list = new int[n];
 			LinkedList<Integer> queue = new LinkedList<Integer>();
 			
 			temp = br.readLine();
@@ -39,14 +41,14 @@ public class Main_5430_G5_AC_임하은 {
 			}
 			
 			boolean left = true;
-			
 			for(int i=0; i<rdList.length; i++) {
 				if(rdList[i] == 'R') {
-					left = false;
+					if(left) left=false;
+					else left=true;
 				}else if(rdList[i] == 'D') {
 					if(queue.size()==0) {
 						sb.append("error\n");
-						break;
+						continue top;
 					}else {
 						if(left) {
 							queue.pollFirst();
@@ -56,17 +58,17 @@ public class Main_5430_G5_AC_임하은 {
 					}
 				}
 			}
-			
 			if(!queue.isEmpty()) {
 				sb.append("[");
-				for(int i=0; i<queue.size(); i++) {
+				int[] result = new int[queue.size()];
+				for(int i=0; i<result.length; i++) {
 					if(left) sb.append(queue.pollFirst());
 					else sb.append(queue.pollLast());
+					if(!queue.isEmpty()) sb.append(",");
+					
 				}
-				sb.append("]");
-			}
-			T--;
-			
+				sb.append("]").append("\n");
+			}else sb.append("[]\n");
 			
 		}
 		System.out.println(sb);

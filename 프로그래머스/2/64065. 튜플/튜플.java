@@ -14,8 +14,6 @@ class Solution {
             }else if(s.substring(i,i+1).equals("}")){
                 if(number.length() !=0){
                     temp.add(Integer.parseInt(number));
-                }
-                if(temp.size() >0){
                     tuple.add(temp);
                     temp = new ArrayList<>();
                 }

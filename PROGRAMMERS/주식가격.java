@@ -5,13 +5,7 @@ class Solution {
         int[] answer = new int[prices.length];
         
         Stack<Integer> stack = new Stack<>();
-        for(int i=0; i<prices.length; i++) {
-            if(stack.isEmpty()){
-                stack.push(i);
-                continue;
-            }
-            
-            
+        for(int i=0; i<prices.length; i++) {          
             while(!stack.isEmpty()) {
                 int pre = stack.peek();
                 if(prices[pre]>prices[i]){
@@ -22,10 +16,9 @@ class Solution {
             stack.push(i);
         }
         
-        int last = stack.pop();
         while(!stack.isEmpty()){
             int pre = stack.pop();
-            answer[pre] = last-pre;
+            answer[pre] = prices.length-pre-1;
         }
         
         return answer;

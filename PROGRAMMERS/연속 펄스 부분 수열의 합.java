@@ -4,26 +4,25 @@ class Solution {
     public long solution(int[] sequence) {
         long answer = 0;
         
-        long sum=0;
-        int pers = 1;
+        long sum1=0;
+        long sum2=0;
+        int pers1 = 1;
+        int pers2 = -1;
         for(int i=0; i<sequence.length; i++) {
-            int n = sequence[i]*pers;
-            if(sum<0) sum=0;
-            sum +=n;
+            int n = sequence[i];
+            if(sum1<0) sum1=0;
+            if(sum2<0) sum2=0;
+            sum1+=n*pers1;
+            sum2+=n*pers2;
             
-            answer = Math.max(sum,answer);
-            pers*=-1;
+            answer = Math.max(sum1,answer);
+            answer = Math.max(sum2,answer);
+            
+            pers1*=-1;
+            pers2*=-1;
+​
         }
         
-        pers = -1;
-        sum=0;
-        for(int i=0; i<sequence.length; i++) {
-            int n = sequence[i]*pers;
-            if(sum<0) sum=0;
-            sum +=n;
-            answer = Math.max(sum,answer);
-            pers*=-1;
-        }
         
         return answer;
     }

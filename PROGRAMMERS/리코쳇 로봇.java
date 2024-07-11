@@ -24,7 +24,6 @@ class Solution {
         
         while(!queue.isEmpty()) {
             int[] cur =  queue.poll();
-            System.out.println(Arrays.toString(cur));
             
             for(int d=0; d<4; d++) {
                 int cx = cur[0];
@@ -39,3 +38,5 @@ class Solution {
                             System.out.printf("%d %d\n",cx-dx[d],cy-dy[d]);
                             queue.add(new int[] {cx-dx[d],cy-dy[d]});
                             visited[cx-dx[d]][cy-dy[d]] = visited[cur[0]][cur[1]]+1;
+                            if(map[cx-dx[d]][cy-dy[d]] == 'G') {
+                                answer = Integer.max(answer,visited[cur[0]][cur[1]]);

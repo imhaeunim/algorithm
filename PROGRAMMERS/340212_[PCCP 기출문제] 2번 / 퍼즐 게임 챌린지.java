@@ -4,8 +4,8 @@ class Solution {
     public int solution(int[] diffs, int[] times, long limit) {
         int answer = 0;
         
-        int start = 0;
-        int end = Integer.MAX_VALUE;
+        int start = 1;
+        int end = Integer.MAX_VALUE-1;
         
         while(start<end) {
             int mid = (end+start)/2;
@@ -18,7 +18,6 @@ class Solution {
             }
         }
         
-        end = end==0?1:end;
         return end;
     }
     

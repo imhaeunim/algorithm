@@ -13,7 +13,7 @@ public class Main {
         int n = Integer.parseInt(st.nextToken());
         int k = Integer.parseInt(st.nextToken());
 ​
-        int[] visit = new int[100000*2+1];
+        int[] visit = new int[Integer.max(n+1,k*2)];
         
         Queue<Integer> queue = new LinkedList<>();
         queue.add(n);

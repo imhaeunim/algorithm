@@ -18,22 +18,25 @@ public class Main {
             int c = Integer.parseInt(st.nextToken());
             while(!stack.isEmpty()) {
                 if(stack.peek()<c) {
-                    stack.add(c);
-                    answer++;
+                    stack.push(c);
                     break;
                 }else if(stack.peek()>c){
                     stack.pop();
+                    answer++;
                 } else {
                     break;
                 }
             }
-            if(stack.isEmpty()&& c!=0) {
-                stack.add(c);
+            if(stack.isEmpty()) {
+                stack.push(c);
+            }
+        }
+        while(!stack.isEmpty()) {
+            if(stack.pop()!=0) {
                 answer++;
             }
         }
         System.out.println(answer);
     }
-​
 }
 ​

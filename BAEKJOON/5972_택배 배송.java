@@ -32,13 +32,13 @@ public class Main {
         pq.add(new int[] {0,0});
         while(!pq.isEmpty()) {
             int[] c = pq.poll();
+            if(visited[c[0]]) continue;
             visited[c[0]] = true;
             if(c[0]==n-1) {
                 answer = c[1];
                 break;
             }
             for(int v[]: map[c[0]]) {
-                if(visited[v[0]]) continue;
                 pq.add(new int[] {v[0], c[1]+v[1]});
             }
         }

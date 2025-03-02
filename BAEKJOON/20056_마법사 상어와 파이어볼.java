@@ -44,9 +44,7 @@ public class Main {
             int m = Integer.parseInt(st.nextToken());
             int s = Integer.parseInt(st.nextToken());
             int d = Integer.parseInt(st.nextToken());
-            Fireball ball = new Fireball(r, c, m, s, d);
-            map[r][c].add(ball);
-            balls.add(ball);
+            balls.add(new Fireball(r, c, m, s, d));
         }
         
         int answer = 0;
@@ -55,7 +53,6 @@ public class Main {
         while(K>0) {
             K--;
             for(Fireball ball: balls) {
-                map[ball.r][ball.c].remove(ball);
                 int nr = (N+ball.r+dr[ball.d]*(ball.s%N))%N; 
                 int nc = (N+ball.c+dc[ball.d]*(ball.s%N))%N;
                 ball.r = nr;
@@ -65,7 +62,9 @@ public class Main {
             
             for(int i=0; i<N; i++) {
                 for(int j=0; j<N; j++) {
-                    if(map[i][j].size()>1) {
+                    if(map[i][j].size()==1) {
+                        map[i][j].clear();
+                    }else if(map[i][j].size()>1){
                         int sumM = 0;
                         int sumS = 0;
                         int allD = map[i][j].get(0).d%2;
@@ -75,6 +74,7 @@ public class Main {
                             if(allD!=-1 && ball.d%2!=allD) allD = -1; 
                             balls.remove(ball);
                         }
+                        
                         sumM/=5;
                         sumS/=map[i][j].size();
                         map[i][j].clear();
@@ -84,9 +84,7 @@ public class Main {
                         if(allD!=-1) dir=0;
                         else dir=1;
                         for(int d=dir; d<8; d+=2) {
-                            Fireball ball = new Fireball(i, j, sumM, sumS, d);
-                            map[i][j].add(ball);
-                            balls.add(ball);
+                            balls.add(new Fireball(i, j, sumM, sumS, d));
                         }
                     }
                 }

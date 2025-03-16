@@ -34,21 +34,27 @@ public class Main {
         }
 ​
         boolean[] visited = new boolean[V];
-        PriorityQueue<int[]> pq = new PriorityQueue<>((o1, o2) -> o1[1]-o2[1]);
-        pq.add(new int[] {K, 0});
-        
-        while(!pq.isEmpty()) {
-            int[] c = pq.poll();
-            if(visited[c[0]]) continue;
-            visited[c[0]] = true;
+​
+        for(int t=0; t<V; t++) {
+            int min = Integer.MAX_VALUE;
+            int idx = -1;
+            for(int i=0; i<V; i++) {
+                if(!visited[i] && distance[i]<min) {
+                    min = distance[i];
+                    idx = i;
+                }
+            }
             
-            for(int[] n: graph[c[0]]) {
-                if(distance[n[0]]>c[1]+n[1]) {
-                    distance[n[0]] = c[1]+n[1];
-                    pq.add(new int[] {n[0], distance[n[0]]});
+            if(idx==-1) break;
+            visited[idx] = true;
+            
+            for(int[] n: graph[idx]) {
+                if(!visited[n[0]] && distance[n[0]]>min+n[1]) {
+                    distance[n[0]] = min+n[1];
                 }
             }
         }
+        
         
         for(int i=0; i<V; i++) {
             if(distance[i]==Integer.MAX_VALUE) {
